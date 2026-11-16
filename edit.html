@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Customize your video invitation — Just For You</title>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/editor.css">
+<style>.phone{aspect-ratio:9/16;width:auto!important;max-width:100%;padding:8px}body.v-preview .phone{width:auto!important}.pvbar{display:flex;gap:8px;justify-content:center;margin-top:10px}.pvbar button{font:600 13px 'Josefin Sans',sans-serif;padding:8px 14px;border-radius:20px;border:1px solid #d9c3a0;background:#fff;color:#5a3d1a;cursor:pointer}</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="brand__mono">❦</span><div><b id="tplName">Invitation</b><small id="tplSub">Animated video invitation</small></div></div>
+  <nav class="tabs" role="tablist"><button type="button" class="tab on" data-view="form">✎ Edit</button><button type="button" class="tab" data-view="preview">👁 Preview</button></nav>
+</header>
+<div class="wrap">
+<form class="panel" id="ed" autocomplete="off" novalidate>
+  <p class="intro">Fill in your details — the preview jumps to the scene you are editing and updates as you type. Leave an optional field empty and it disappears from the video.</p>
+  <div id="groups"></div>
+  <div class="actions"><button type="button" class="btn btn--ghost" id="resetBtn">Reset to sample</button><button type="button" class="btn btn--ghost" id="clearBtn">Clear all</button></div>
+  <p class="err" id="err" hidden></p>
+  <button type="button" class="btn btn--main" id="createBtn">✨ Create my invitation</button>
+</form>
+<section class="preview" id="preview">
+  <div class="phone"><iframe id="pv" title="Invitation preview"></iframe></div>
+  <div class="pvbar"><button type="button" id="pvPlay">▶ Play from start</button><button type="button" id="pvScene">↻ Replay this scene</button></div>
+  <p class="pvnote">Live preview (muted) · guests get the tap-to-open screen and music</p>
+</section>
+</div>
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet__card">
+    <button type="button" class="sheet__x" id="sheetX" aria-label="Close">×</button>
+    <div class="sheet__tick">✓</div>
+    <h2>Your invitation is ready!</h2>
+    <p>Share this link with your guests. Everything you typed is saved inside the link.</p>
+    <div class="link"><input id="shareUrl" readonly aria-label="Your invitation link"><button type="button" class="btn btn--main" id="copyBtn">Copy</button></div>
+    <div class="sheet__btns">
+      <a class="btn btn--wa" id="waShare" target="_blank" rel="noopener">Share on WhatsApp</a>
+      <a class="btn btn--ghost" id="openLink" target="_blank" rel="noopener">Open invitation ↗</a>
+      <button type="button" class="btn btn--ghost" id="nativeShare" hidden>Share…</button>
+    </div>
+  </div>
+</div>
+<script src="assets/config.js"></script>
+<script src="assets/sample-data.js"></script>
+<script src="assets/jfy-codec.js"></script>
+<script src="assets/editor.js"></script>
+</body>
+</html>

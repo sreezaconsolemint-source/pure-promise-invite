@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1b1b2e">
+<title>Wedding Invitation — Just For You</title>
+<meta property="og:title" content="You're invited to our wedding">
+<meta property="og:image" content="assets/img/title.webp">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="assets/kit.css">
+</head>
+<body>
+<div class="backdrop" id="backdrop"></div>
+<main class="stage" id="stage">
+  <div id="scenes"></div>
+  <canvas class="fx" id="fx" width="1080" height="1920"></canvas>
+  <div id="trans"></div>
+  <div class="start" id="start"><button type="button" class="start__btn" id="startBtn"><span class="start__ring"></span><b>Tap to open</b><small>your invitation</small></button></div>
+  <div class="end" id="end" hidden>
+    <a class="pill" id="rsvp" target="_blank" rel="noopener">RSVP on WhatsApp</a>
+    <a class="pill" id="map" target="_blank" rel="noopener">Open venue map</a>
+    <button type="button" class="pill ghost" id="replay">↺ Watch again</button>
+    <a class="make" href="edit.html">Create your own invitation →</a>
+    <p class="credit" id="credit"></p>
+  </div>
+  <button type="button" class="mute" id="mute" aria-label="Mute music" hidden>♪</button>
+</main>
+<audio id="music" preload="auto" playsinline></audio>
+<script src="assets/config.js"></script>
+<script src="assets/sample-data.js"></script>
+<script src="assets/jfy-codec.js"></script>
+<script src="assets/kit.js"></script>
+</body>
+</html>

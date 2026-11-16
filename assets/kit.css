@@ -1,0 +1,43 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#111;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.backdrop{position:fixed;inset:-40px;background:#222 center/cover;filter:blur(28px) brightness(.6)}
+.stage{position:absolute;left:50%;top:50%;width:1080px;height:1920px;overflow:hidden;background:#000;contain:strict;transform:translate(-50%,-50%)}
+.sc{position:absolute;inset:0;overflow:hidden;opacity:0;visibility:hidden}
+.sc .bg{position:absolute;left:0;top:0;width:1080px;height:1920px;display:block;transform-origin:0 0;will-change:transform;user-select:none;-webkit-user-drag:none}
+.fx{position:absolute;inset:0;width:1080px;height:1920px;pointer-events:none}
+.fx.front{z-index:3}
+/* text boxes */
+.box{position:absolute;display:flex;align-items:center;justify-content:center;will-change:transform,opacity}
+.box>svg.card{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 10px 18px rgba(40,20,0,.35))}
+.box .in{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%;height:100%;font-size:calc(var(--k,1) * 1px);color:var(--ink);font-family:var(--serif)}
+.box .s{font-family:var(--script);color:var(--sink);font-weight:var(--sw,400);line-height:1.12;padding:0 .2em}
+.box .r{font-weight:var(--rw,700);line-height:1.32}
+.box .hide{display:none!important}
+.box .div{display:block;width:var(--dw,320px);height:20px;margin:6px 0 4px}
+.box.none .in{text-shadow:var(--shadow,none)}
+.trans{position:absolute;inset:0;pointer-events:none;z-index:6}
+.trans .leaf{position:absolute;left:0;top:0;width:1500px;height:1500px;margin:-750px 0 0 -750px;opacity:0;will-change:transform}
+.trans .fill{position:absolute;inset:0;opacity:0}
+/* overlays */
+.start{position:absolute;inset:0;display:grid;place-items:center;z-index:20;transition:opacity .5s;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 30%,rgba(0,0,0,.45))}
+.start.out{opacity:0;pointer-events:none}
+.start__btn{position:relative;width:360px;height:360px;border-radius:50%;border:0;background:radial-gradient(circle,#fffaf0,#f1dcc0);color:#6b4428;box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 0 0 6px #caa36b;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.start__btn b{font-family:'Great Vibes',cursive;font-weight:400;font-size:84px;line-height:1}
+.start__btn small{font:600 28px 'Cormorant Garamond',serif;letter-spacing:.18em;text-transform:uppercase}
+.start__ring{position:absolute;inset:-24px;border-radius:50%;border:4px solid rgba(255,240,215,.85);animation:ring 1.8s ease-out infinite}
+@keyframes ring{from{transform:scale(.9);opacity:1}to{transform:scale(1.25);opacity:0}}
+.end{position:absolute;left:0;right:0;bottom:56px;z-index:15;display:flex;flex-direction:column;align-items:center;gap:18px;animation:fadeUp .8s ease both}
+.end[hidden]{display:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+.pill{display:block;min-width:560px;padding:22px 44px;border-radius:80px;background:rgba(255,250,240,.94);color:#5a3a1e;font:700 38px 'Cormorant Garamond',serif;text-decoration:none;text-align:center;border:0;box-shadow:0 10px 30px rgba(0,0,0,.35);cursor:pointer}
+.pill.ghost{background:rgba(110,70,30,.9);color:#fff}
+.hide{display:none!important}
+.make{color:#fff;font:600 32px 'Cormorant Garamond',serif;background:rgba(20,15,30,.6);padding:12px 28px;border-radius:40px;text-decoration:none}
+.credit{color:#fff;font:500 22px 'Cormorant Garamond',serif;background:rgba(20,15,30,.55);padding:8px 20px;border-radius:20px;max-width:900px;text-align:center}
+.mute{position:absolute;right:36px;top:36px;z-index:16;width:92px;height:92px;border-radius:50%;border:0;background:rgba(255,255,255,.75);color:#5a3a1e;font-size:46px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.mute.off{text-decoration:line-through;opacity:.7}
+/* spacing for free-text scenes (measured from the reference) */
+.t-names .div{margin:.7em 0 .8em}.t-names .s{line-height:1.08}.t-names [data-k=first_parents],.t-names [data-k=second_parents]{margin-top:.08em}
+.t-names [data-k=weds_word]{margin:.32em 0 .2em!important}
+.t-rsvp .div{margin:1.2em 0 1em}.t-rsvp .s{line-height:1.12}.t-rsvp [data-k=rsvp_word]{margin:.12em 0 .05em}
+.t-event .div{margin:.25em 0 .35em}
