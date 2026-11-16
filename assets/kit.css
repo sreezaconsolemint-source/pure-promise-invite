@@ -41,3 +41,6 @@ html,body{height:100%;background:#111;overflow:hidden;-webkit-tap-highlight-colo
 .t-names [data-k=weds_word]{margin:.32em 0 .2em!important}
 .t-rsvp .div{margin:1.2em 0 1em}.t-rsvp .s{line-height:1.12}.t-rsvp [data-k=rsvp_word]{margin:.12em 0 .05em}
 .t-event .div{margin:.25em 0 .35em}
+.box .mono{font-family:var(--mfont,'Rozha One'),serif;color:var(--mink,var(--sink));line-height:1;letter-spacing:.02em}
+.t-title.none .s,.t-title.none .mono{-webkit-text-stroke:1.6px currentColor}
+.t-event .s,.t-names .s,.t-rsvp .s{-webkit-text-stroke:.6px currentColor}

@@ -37,6 +37,21 @@
       '<radialGradient id="' + id + 'f" cx=".5" cy=".45" r=".7"><stop offset="0" stop-color="' + fill + '"/><stop offset="1" stop-color="' + fill2 + '"/></radialGradient></defs>';
     var p = function (d) { return style === 'arch' ? arch(d, d, w - 2 * d, h - 2 * d) : style === 'rect' ? rrect(d, d, w - 2 * d, h - 2 * d, c.radius || 18) : plaque(d, d, w - 2 * d, h - 2 * d, w * .085 + d * .6, h * .07); };
     var op = c.opacity == null ? 1 : c.opacity;
+    if (style === 'filigree') {
+      var m = 44, G = 'url(#' + id + ')', curl = function (x, y, sx, sy) {
+        return '<g transform="translate(' + x + ' ' + y + ') scale(' + sx + ' ' + sy + ')" fill="none" stroke="' + G + '" stroke-width="5" stroke-linecap="round">' +
+          '<path d="M0 60C0 25 25 0 60 0"/><path d="M8 92C-6 60 6 22 40 10c26-9 52 0 62 18"/><path d="M92 8C60-6 22 6 10 40c-9 26 0 52 18 62"/>' +
+          '<circle cx="34" cy="34" r="9" fill="' + G + '"/><path d="M102 28c8 14 2 26-10 26M28 102c14 8 26 2 26-10" stroke-width="4"/></g>';
+      }, crest = function (y, f) {
+        return '<g transform="translate(' + (w / 2) + ' ' + y + ') scale(1 ' + f + ')" fill="none" stroke="' + G + '" stroke-width="5" stroke-linecap="round">' +
+          '<path d="M-90 0C-70-6-50-34-24-36-8-37 0-26 0-16 0-26 8-37 24-36 50-34 70-6 90 0"/><path d="M-40-4c0-14 12-22 22-18M40-4c0-14-12-22-22-18" stroke-width="4"/><circle cx="0" cy="-46" r="8" fill="' + G + '"/></g>';
+      };
+      return '<svg class="card" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true">' + defs +
+        '<rect x="' + m + '" y="' + m + '" width="' + (w - 2 * m) + '" height="' + (h - 2 * m) + '" fill="url(#' + id + 'f)" opacity="' + op + '"/>' +
+        '<rect x="' + (m - 8) + '" y="' + (m - 8) + '" width="' + (w - 2 * m + 16) + '" height="' + (h - 2 * m + 16) + '" fill="none" stroke="' + G + '" stroke-width="9"/>' +
+        '<rect x="' + (m + 10) + '" y="' + (m + 10) + '" width="' + (w - 2 * m - 20) + '" height="' + (h - 2 * m - 20) + '" fill="none" stroke="' + G + '" stroke-width="2.5"/>' +
+        curl(6, 6, 1, 1) + curl(w - 6, 6, -1, 1) + curl(6, h - 6, 1, -1) + curl(w - 6, h - 6, -1, -1) + crest(m - 4, 1) + crest(h - m + 4, -1) + '</svg>';
+    }
     return '<svg class="card" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true">' + defs +
       (style === 'plain' ? '<path d="' + rrect(0, 0, w, h, c.radius || 6) + '" fill="url(#' + id + 'f)" opacity="' + op + '"/>' :
       '<path d="' + p(0) + '" fill="url(#' + id + ')"/><path d="' + p(11) + '" fill="url(#' + id + 'f)" opacity="' + op + '"/><path d="' + p(21) + '" fill="none" stroke="url(#' + id + ')" stroke-width="3"/>') + '</svg>';
@@ -45,7 +60,7 @@
 
   /* ---------- scene text blocks ---------- */
   var SZ = {
-    title: { intro: 46, names: 100 },
+    title: { intro: 46, names: 100, mono: 200 },
     names: { inv: 33, name: 84, par: 40, weds: 64 },
     event: { title: 88, line: 44 },
     rsvp: { kindly: 44, word: 88, by: 42, comp: 42, fam: 80, contact: 40 }
@@ -53,7 +68,8 @@
   function px(sc, k) { var z = (sc.sz && sc.sz[k]) || SZ[sc.type][k]; return 'font-size:' + z + 'em'; }
   function blockHTML(sc) {
     var o = '';
-    if (sc.type === 'title') o = '<p class="r" data-k="intro_line" style="' + px(sc, 'intro') + '"></p>' + divider() + '<p class="s" data-k="couple" style="' + px(sc, 'names') + '"></p>';
+    if (sc.type === 'title' && sc.mono) o = '<p class="mono" data-k="initials" style="' + px(sc, 'mono') + '"></p><p class="s" data-k="couple" style="' + px(sc, 'names') + ';margin-top:' + (sc.gap || 0) + 'px"></p>';
+    else if (sc.type === 'title') o = '<p class="r" data-k="intro_line" style="' + px(sc, 'intro') + '"></p>' + divider() + '<p class="s" data-k="couple" style="' + px(sc, 'names') + '"></p>';
     else if (sc.type === 'names') o = '<div class="r ml" data-k="invite_text" style="' + px(sc, 'inv') + '"></div>' + divider() +
       '<p class="s" data-k="first_name" style="' + px(sc, 'name') + '"></p><p class="r" data-k="first_parents" style="' + px(sc, 'par') + '"></p>' +
       '<p class="s" data-k="weds_word" style="' + px(sc, 'weds') + ';margin:.1em 0"></p>' +
@@ -69,7 +85,7 @@
     s.innerHTML = '<img class="bg" src="assets/img/' + sc.img + '.webp" alt="">'; root.appendChild(s);
     if (!sc.box) return;
     var b = sc.box, st = sc.style || CFG.cardStyle || 'plaque', bl = document.createElement('section'); bl.className = 'sc'; bl.id = 'bl' + i;
-    var v = '--ink:' + (sc.ink || TH.ink || '#4a2e1a') + ';--sink:' + (sc.sink || TH.sink || TH.ink || '#5b3a1c') + ';--script:' + (sc.script || TH.script || "'Great Vibes'") + ',cursive;--serif:' + (TH.serif || "'Cormorant Garamond'") + ',serif;' + (sc.shadow ? '--shadow:' + sc.shadow + ';' : '') + (TH.rw ? '--rw:' + TH.rw + ';' : '');
+    var v = '--ink:' + (sc.ink || TH.ink || '#4a2e1a') + ';--sink:' + (sc.sink || TH.sink || TH.ink || '#5b3a1c') + ';--script:' + (sc.script || TH.script || "'Great Vibes'") + ',cursive;--serif:' + (TH.serif || "'Cormorant Garamond'") + ',serif;' + (sc.shadow ? '--shadow:' + sc.shadow + ';' : '') + (TH.rw ? '--rw:' + TH.rw + ';' : '') + (sc.vars || '');
     var pad = sc.pad || (st === 'plaque' ? [56, 70] : st === 'none' ? [0, 0] : [40, 40]);
     bl.innerHTML = '<div class="box ' + st + ' t-' + sc.type + '" data-ev="' + (sc.ev == null ? '' : sc.ev) + '" style="left:' + b[0] + 'px;top:' + b[1] + 'px;width:' + b[2] + 'px;height:' + b[3] + 'px;' + v + '">' +
       (st === 'none' ? '' : cardSVG(st, b[2], b[3], sc.card || CFG.card)) + '<div class="in" style="padding:' + pad[0] + 'px ' + pad[1] + 'px">' + blockHTML(sc) + '</div></div>';
@@ -82,6 +98,7 @@
     var first = bf ? D.bride_name : D.groom_name, second = bf ? D.groom_name : D.bride_name;
     var calc = {
       couple: [first, second].filter(Boolean).join(' & '),
+      initials: [first, second].filter(Boolean).map(function (n) { return n.trim().charAt(0).toUpperCase(); }).join(''),
       first_name: first, second_name: second,
       first_parents: bf ? D.bride_parents : D.groom_parents, second_parents: bf ? D.groom_parents : D.bride_parents,
       rsvp_by_txt: (function () { var p = pdate(D.rsvp_by); return p ? 'By ' + p.d + ' ' + MON[p.m - 1] + ' ' + p.y : ''; })()
@@ -180,8 +197,8 @@
       var leaves = leafSet(TR.img || 'leaf', TR.tint), fill = document.createElement('div'); fill.className = 'fill'; fill.style.background = TR.fill || '#0b3b24'; trans.insertBefore(fill, trans.firstChild);
       var keys = leaves.map(function () { return []; }), fk = [[0, { o: 0 }]];
       if (open.kind === 'leaves') {
-        fk = [[0, { o: 1 }], [.1, { o: 1 }], [.3, { o: 0 }, 'lin']];
-        leaves.forEach(function (lf, j) { var L = LEAVES[j]; keys[j].push([0, { o: 1, x: L[0], y: L[1], r: L[2], s: 1.15 }], [.06, { o: 1, x: L[0], y: L[1], r: L[2], s: 1.15 }], [.5, { o: 1, x: L[0] + (L[0] < 540 ? -1300 : 1300), y: L[1] - 900, r: L[2] + 70, s: 1.3 }, 'in'], [.51, { o: 0 }]); });
+        fk = [[0, { o: 1 }], [.05, { o: 1 }], [.22, { o: 0 }, 'lin']];
+        leaves.forEach(function (lf, j) { var L = LEAVES[j]; keys[j].push([0, { o: 1, x: L[0], y: L[1], r: L[2], s: 1.15 }], [.03, { o: 1, x: L[0], y: L[1], r: L[2], s: 1.15 }], [.32, { o: 1, x: L[0] + (L[0] < 540 ? -1300 : 1300), y: L[1] - 900, r: L[2] + 70, s: 1.3 }, 'in'], [.33, { o: 0 }]); });
       }
       if (TR.kind === 'leaves') S.forEach(function (sc, i) {
         if (!i) return; var T = sc.t0, d = TR.d || .9;
@@ -191,6 +208,7 @@
             [T, { o: 1, x: L[0], y: L[1], r: L[2], s: 1.15 }, 'out'], [T + d * .5, { o: 1, x: L[0] + 1300 * dx, y: L[1] - 1200, r: L[2] + 70, s: 1.25 }, 'in'], [T + d * .5 + .01, { o: 0 }]);
         });
       });
+      if (TR.kind === 'leaves' && TR.veil !== 0) { var vk = []; S.forEach(function (sc, i) { if (i) vk.push([sc.t0 - .3, { o: 0 }], [sc.t0 - .05, { o: TR.veil || .7 }, 'lin'], [sc.t0 + .3, { o: 0 }, 'lin']); }); fk = fk.concat(vk.filter(function (k) { return k[0] > fk[fk.length - 1][0]; })); }
       leaves.forEach(function (lf, j) { if (keys[j].length) K(lf, keys[j]); else lf.remove(); });
       K(fill, fk);
     }
