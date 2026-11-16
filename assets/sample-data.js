@@ -18,5 +18,5 @@ window.JFY_DATA = {
   compliments: "Best Compliments From", family_name: "Mehra Family", contact: "Contact: +91 98765 43210",
   rsvp_whatsapp: "919876543210", venue_map_url: "",
   music_url: "assets/music.mp3",
-  music_credit: "“Canon in D Major” — Kevin MacLeod (incompetech.com), licensed under CC BY 4.0"
+  music_credit: ""
 };
